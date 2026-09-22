@@ -5,12 +5,12 @@ repo: prds-core
 org: 4444J99
 
 metadata:
-  implementation_status: EXTRACTING
+  implementation_status: BUILDING
   tier: flagship
   promotion_status: PUBLIC_PROCESS
-  last_validated: '2026-09-21'
-  generated: '2026-09-21'
-  wave: 0
+  last_validated: '2026-09-22'
+  generated: '2026-09-22'
+  wave: 2
 
 boundary:
   visibility: PUBLIC
@@ -18,15 +18,25 @@ boundary:
   data_classification: ENTITLED_HOSTED
   credential_authority: CLAVIS
 
+packages:
+  - name: "@prds/ui"
+    visibility: PUBLIC
+    distribution: GIT_DEP
+    description: "Radix/ShadCN components for public dashboard"
+  - name: "@prds/types"
+    visibility: PUBLIC
+    distribution: GIT_DEP
+    description: "Public DTOs for API contracts"
+
 dependencies:
-  - type: build
-    target: "@prds/types"
-    repo: prds-engine
-    package: types
   - type: build
     target: "@prds/ui"
     repo: prds-engine
     package: ui
+  - type: build
+    target: "@prds/types"
+    repo: prds-engine
+    package: types
   - type: authenticated_api
     target: prds-engine
     description: "Workers API consumes engine logic"
@@ -38,8 +48,12 @@ dependencies:
     description: "Broker share verification"
 
 deployment:
-  staging:
-    target: cloudflare_pages + cloudflare_workers
+  dashboard:
+    target: cloudflare_pages
+    auto_on_push: true
+    environment: staging
+  api:
+    target: cloudflare_workers
     auto_on_push: true
     environment: staging
   production:
@@ -49,4 +63,4 @@ deployment:
     requires_approval: true
 
 lane: evolve-platform
-owner: platform-team
+owner: core-team

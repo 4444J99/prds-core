@@ -1,0 +1,18 @@
+name = "prds-core-api"
+main = "src/index.ts"
+compatibility_date = "2024-12-18"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+ENVIRONMENT = "development"
+JWT_SECRET = "dev-secret-change-in-production"
+
+[env.staging]
+name = "prds-core-api-staging"
+[vars]
+ENVIRONMENT = "staging"
+
+[env.production]
+name = "prds-core-api-production"
+[vars]
+ENVIRONMENT = "production"
