@@ -1,0 +1,52 @@
+schema_version: '1.0'
+organ: III
+organ_name: Commerce
+repo: prds-core
+org: 4444J99
+
+metadata:
+  implementation_status: EXTRACTING
+  tier: flagship
+  promotion_status: PUBLIC_PROCESS
+  last_validated: '2026-09-21'
+  generated: '2026-09-21'
+  wave: 0
+
+boundary:
+  visibility: PUBLIC
+  ip_classification: PUBLIC_SURFACE
+  data_classification: ENTITLED_HOSTED
+  credential_authority: CLAVIS
+
+dependencies:
+  - type: build
+    target: "@prds/types"
+    repo: prds-engine
+    package: types
+  - type: build
+    target: "@prds/ui"
+    repo: prds-engine
+    package: ui
+  - type: authenticated_api
+    target: prds-engine
+    description: "Workers API consumes engine logic"
+  - type: authenticated_api
+    target: prds-commerce
+    description: "Entitlement checks"
+  - type: authenticated_api
+    target: prds-admin
+    description: "Broker share verification"
+
+deployment:
+  staging:
+    target: cloudflare_pages + cloudflare_workers
+    auto_on_push: true
+    environment: staging
+  production:
+    target: cloudflare_pages + cloudflare_workers
+    manual_promotion: true
+    environment: production
+    requires_approval: true
+
+lane: evolve-platform
+owner: platform-team
